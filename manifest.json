@@ -1,0 +1,18 @@
+{
+    "manifest_version": 3,
+    "name": "ServiceNow Incident Extractor",
+    "version": "1.0",
+    "description": "Extracts incident details from ServiceNow and formats for Teams.",
+    "permissions": [
+        "scripting",
+        "activeTab",
+        "webNavigation",
+        "clipboardWrite"
+    ],
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "host_permissions": [
+        "https://*.service-now.com/*"
+    ]
+}

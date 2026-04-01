@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Incident Extractor</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      width: 340px;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      padding: 20px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 18px;
+      backdrop-filter: blur(10px);
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #4fc3f7, #1976d2);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .header-text h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.3px;
+    }
+
+    .header-text span {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.45);
+    }
+
+    .github-link {
+      margin-left: auto;
+      text-decoration: none;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 3px 8px;
+      border-radius: 5px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .github-link:hover {
+      color: #90caf9;
+      border-color: rgba(144, 202, 249, 0.4);
+    }
+
+    .output-box {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 14px;
+      min-height: 130px;
+    }
+
+    textarea {
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      resize: none;
+      font-size: 13px;
+      color: #e0e0e0;
+      line-height: 1.7;
+      height: 120px;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+
+    textarea::placeholder {
+      color: rgba(255, 255, 255, 0.2);
+      font-style: italic;
+    }
+
+    textarea::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    textarea::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    textarea::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+    }
+
+    textarea::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    button {
+      flex: 1;
+      padding: 9px 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.1s, opacity 0.15s;
+      letter-spacing: 0.2px;
+    }
+
+    button:hover {
+      opacity: 0.88;
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    #extract {
+      background: linear-gradient(135deg, #4fc3f7, #1976d2);
+      color: #fff;
+      flex: 2;
+    }
+
+    #copy {
+      background: rgba(255, 255, 255, 0.1);
+      color: #90caf9;
+      border: 1px solid rgba(144, 202, 249, 0.3);
+    }
+
+    #clear {
+      background: rgba(255, 255, 255, 0.07);
+      color: rgba(255, 255, 255, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    #toast {
+      display: none;
+      margin-top: 12px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    #toast.success {
+      background: rgba(46, 125, 50, 0.3);
+      color: #81c784;
+      border: 1px solid rgba(129, 199, 132, 0.3);
+    }
+
+    #toast.error {
+      background: rgba(198, 40, 40, 0.3);
+      color: #ef9a9a;
+      border: 1px solid rgba(239, 154, 154, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">
+      <div class="logo">SI</div>
+      <div class="header-text">
+        <h3>Incident Extractor</h3>
+        <span>ServiceNow to Clipboard</span>
+      </div>
+      <a class="github-link" href="https://github.com" target="_blank">GitHub</a>
+    </div>
+    <div class="output-box">
+      <textarea id="output" readonly placeholder="Extracted incident details will appear here..."></textarea>
+    </div>
+    <div class="buttons">
+      <button id="extract">Extract & Copy</button>
+      <button id="copy">Copy</button>
+      <button id="clear">X</button>
+    </div>
+    <div id="toast"></div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
