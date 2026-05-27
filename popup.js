@@ -17,18 +17,36 @@ document.getElementById('extract').onclick = async () => {
       func: () => {
         const number = document.getElementById('incident.number')?.value || '';
         if (!number) return null;
+
         const desc = document.getElementById('incident.short_description')?.value || '';
+
+        // Priority
         const priorityElem = document.getElementById('incident.priority');
         const priorityMap = { '1': '1 - Critical', '2': '2 - High', '3': '3 - Moderate', '4': '4 - Low', '5': '5 - Very Low' };
         const priorityVal = priorityElem?.value || '';
         const priority = priorityElem?.tagName === 'SELECT'
           ? priorityElem.options[priorityElem.selectedIndex]?.text.trim() || priorityVal
           : priorityMap[priorityVal] || priorityVal;
+
+        // Urgency
+        const urgencyElem = document.getElementById('incident.urgency');
+        const urgencyMap = { '1': '1 - High', '2': '2 - Medium', '3': '3 - Low' };
+        const urgencyVal = urgencyElem?.value || '';
+        const urgency = urgencyElem?.tagName === 'SELECT'
+          ? urgencyElem.options[urgencyElem.selectedIndex]?.text.trim() || urgencyVal
+          : urgencyMap[urgencyVal] || urgencyVal;
+
+        // Assigned To
         const rawAssignee = document.getElementById('sys_display.incident.assigned_to')?.value || '';
         const assignee = rawAssignee
           ? '@' + rawAssignee.replace(/\(.*?\)/, '').trim().replace(/\./g, ' ')
           : 'Unassigned';
-        return { number, desc, priority, assignee };
+
+        // Assignment Group
+        const rawGroup = document.getElementById('sys_display.incident.assignment_group')?.value || '';
+        const assignmentGroup = rawGroup || 'Unassigned';
+
+        return { number, desc, priority, urgency, assignee, assignmentGroup };
       }
     }, (results) => {
       const result = results?.filter(r => r.result !== null).sort((a, b) => {
@@ -36,12 +54,15 @@ document.getElementById('extract').onclick = async () => {
         const scoreB = Object.values(b.result).filter(Boolean).length;
         return scoreB - scoreA;
       })[0]?.result;
+
       if (!result) {
         showToast('Could not find incident fields.', 'error');
         return;
       }
-      const { number, desc, priority, assignee } = result;
-      const formatted = `${number}\nDesc: ${desc}\nPriority: ${priority}\nAssigned to: ${assignee}`;
+
+      const { number, desc, priority, urgency, assignee, assignmentGroup } = result;
+      const formatted = `${number}\nDesc: ${desc}\nPriority: ${priority}\nUrgency: ${urgency}\nAssignment Group: ${assignmentGroup}\nAssigned To: ${assignee}`;
+
       document.getElementById('output').value = formatted;
       navigator.clipboard.writeText(formatted).then(() => {
         showToast('Copied to clipboard!', 'success');
@@ -60,4 +81,3 @@ document.getElementById('clear').onclick = () => {
   document.getElementById('output').value = '';
   showToast('Cleared.', 'success');
 };
-
